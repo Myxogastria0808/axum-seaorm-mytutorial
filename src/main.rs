@@ -6,12 +6,12 @@ const DATABASE_URL: &str = "postgres://postgres:postgres@localhost:5433/test_db"
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() {
-    api().await;
+    let _ = api().await;
 }
 
 //axum
 async fn api() {
-    //Router
+    //Router((
     let app = Router::new().route("/create", get(create_post_handler));
     //Server
     let listener = tokio::net::TcpListener::bind("127.0.0.1:3000")
@@ -23,7 +23,7 @@ async fn api() {
 
 //Handler
 async fn create_post_handler() -> String {
-    create_post().await.expect("run func error");
+    create_post().await.expect("Creat post is failed");
     "Creat post is success".to_string()
 }
 
