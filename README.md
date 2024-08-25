@@ -1,26 +1,51 @@
 # Setup
 
+0. sea-orm-cliの導入
+
+```sh
+cargo install sea-orm-cli
+```
+
 1. プロジェクトを一つ作る
 
 ```sh
 cargo init
 ```
 
+`docker-compose.yaml`
+
+```yaml
+version: "3.8"
+
+services:
+  db:
+    container_name: postgres
+    image: postgres:latest
+    volumes:
+      - ./db:/var/lib/postgresql
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: test_db
+    ports:
+      - "5433:5432"
+```
+
 `Cargo.toml`
-
-Database: sqlx-postgres
-
-DatabaeURL: postgres://root:root@localhost:5432
 
 ```toml
 [dependencies]
 sea-orm = { version = "^0.12.0", features = [ "sqlx-postgres", "postgres://postgres:postgres@localhost:5433", "macros" ] }
 ```
 
+Database Driver: sqlx-postgres
+
+DatabaeURL: postgres://postgres:postgres@localhost:5433
+
 2. マイグレーションファイルの生成
 
 ```sh
-ea-orm-cli migrate init
+sea-orm-cli migrate init
 ```
 
 3. マイグレーションファイルにテーブルの定義を書く
